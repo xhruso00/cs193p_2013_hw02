@@ -52,18 +52,25 @@
         tlacitko.selected = karta.otocenaCelnouStranou;
         //tlacitko.enabled = !karta.hratelna;
         tlacitko.alpha = (karta.nehratelna ? 0.3 : 1.0);
-        self.poslednyTahPopisok.text = [self popisokPrePoslednyTah:[self.hra.poslednyTah lastObject]];
+        self.poslednyTahPopisok.attributedText = [self popisokPrePoslednyTah:[self.hra.poslednyTah lastObject]];
     }
 }
 //TODO attributed string
-- (NSString *)popisokPrePoslednyTah:(PoslednyTah *)tah {
-    NSMutableString *popisok = [[NSMutableString alloc] init];
-    [popisok appendFormat:@"%@ :",tah.stav];
-    for (Karta *karta in tah.karty){
-        [popisok appendFormat:@"%@ :",karta.obsah];
+- (NSAttributedString *)popisokPrePoslednyTah:(PoslednyTah *)tah {
+    if (!tah) {
+        return nil;
     }
-    [popisok appendFormat:@"za %d body",tah.body];
-    return [NSString stringWithString:popisok];
+    NSMutableAttributedString *popisok = [[NSMutableAttributedString alloc] init];
+    [popisok  appendAttributedString:[[NSAttributedString alloc] initWithString:tah.stav]];
+    [popisok  appendAttributedString:[[NSAttributedString alloc] initWithString:@" : "]];
+    for (Karta *karta in tah.karty){
+        [popisok appendAttributedString:[[self class] attributedstringForCard:(SkupinovaKarta *)karta]];
+        [popisok  appendAttributedString:[[NSAttributedString alloc] initWithString:@" , "]];
+    }
+    [popisok  appendAttributedString:[[NSAttributedString alloc] initWithString:@" za "]];
+    [popisok  appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d", tah.body]]];
+    [popisok  appendAttributedString:[[NSAttributedString alloc] initWithString:@" body "]];
+    return [[NSAttributedString alloc] initWithAttributedString:popisok];
 }
 
 
