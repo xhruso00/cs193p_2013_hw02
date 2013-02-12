@@ -1,8 +1,8 @@
 //
-//  PorovnavaciaKartovaHra.h
-//  cs193p_2013_hw01
+//  SkupinovaKartovaHra.h
+//  cs193p_2013_hw02
 //
-//  Created by Marek Hrušovský on 2/4/13.
+//  Created by Marek Hrušovský on 2/12/13.
 //  Copyright (c) 2013 Marek Hrušovský. All rights reserved.
 //
 
@@ -10,7 +10,7 @@
 #import "Karta.h"
 #import "BalicekKariet.h"
 
-@interface PorovnavaciaKartovaHra : NSObject
+@interface SkupinovaKartovaHra : NSObject
 
 @property (readonly,nonatomic) int skore;
 @property (nonatomic,strong,readonly) NSMutableArray *poslednyTah;
@@ -20,5 +20,6 @@
    pouzitimBalickahKariet:(BalicekKariet *) balicek;
 - (void)otocKartuNaIndexe:(NSUInteger)index;
 - (Karta *)kartaNaIndexe:(NSUInteger)index;
+
 
 @end

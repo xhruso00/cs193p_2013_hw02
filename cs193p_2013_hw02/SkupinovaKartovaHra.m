@@ -1,27 +1,26 @@
 //
-//  PorovnavaciaKartovaHra.m
-//  cs193p_2013_hw01
+//  SkupinovaKartovaHra.m
+//  cs193p_2013_hw02
 //
-//  Created by Marek Hrušovský on 2/4/13.
+//  Created by Marek Hrušovský on 2/12/13.
 //  Copyright (c) 2013 Marek Hrušovský. All rights reserved.
 //
 
-#import "PorovnavaciaKartovaHra.h"
+#import "SkupinovaKartovaHra.h"
 #import "PoslednyTah.h"
 
-@interface PorovnavaciaKartovaHra()
+@interface SkupinovaKartovaHra()
 @property (readwrite,nonatomic) int skore;
 @property (strong,nonatomic) NSMutableArray *karty;
 @property (nonatomic,strong,readwrite) NSMutableArray *poslednyTah;
 @end
 
-@implementation PorovnavaciaKartovaHra
+@implementation SkupinovaKartovaHra
 
 - (NSMutableArray *)poslednyTah {
     if (!_poslednyTah) _poslednyTah = [[NSMutableArray alloc]init];
     return _poslednyTah;
 }
-
 
 
 - (NSMutableArray *)karty {
@@ -36,7 +35,7 @@
             Karta *karta = [balicek potiahniNahodnuKartu];
             self.karty[i] = karta;
         }
-        self.pocetKarietNaZhodu = 2;
+        self.pocetKarietNaZhodu = 3;
     }
     
     return  self;
@@ -69,9 +68,8 @@
                     self.skore += porovnacieSkore * POROVNACI_BONUS;
                     NSArray *karty = [otoceneKarty arrayByAddingObject:karta];
                     [self.poslednyTah addObject:[[PoslednyTah alloc] initWithKarty:karty
-                                           stav:@"ZHODA"
-                                           body:porovnacieSkore * POROVNACI_BONUS]];
-
+                                                                              stav:@"ZHODA"
+                                                                              body:porovnacieSkore * POROVNACI_BONUS]];
                 }
                 else {
                     for (Karta *inaKarta in otoceneKarty)
@@ -81,11 +79,11 @@
                     [self.poslednyTah addObject:[[PoslednyTah alloc] initWithKarty:karty
                                                                               stav:@"NEZHODA"
                                                                               body:-TREST_ZA_NEZHODU]];
-                
+                    
                 }
             }
             else {
-        
+            
                 self.skore -= CENA_ZA_OTOCENIE;
                 [self.poslednyTah addObject:[[PoslednyTah alloc] initWithKarty:@[karta]
                                                                           stav:@"OTOCENIE"

@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-
+#import "PoslednyTah.h"
 
 @interface ViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *pocetOtoceniPopisok;
@@ -16,15 +16,11 @@
 @property (strong,nonatomic) PorovnavaciaKartovaHra *hra;
 @property (weak, nonatomic) IBOutlet UILabel *skorePopisok;
 @property (weak, nonatomic) IBOutlet UILabel *poslednyTahPopisok;
-@property (weak, nonatomic) IBOutlet UISegmentedControl *pocetHladanychZhod;
 
 @end
 
 @implementation ViewController
 
-- (IBAction)zmenPocetHladanychKariet:(UISegmentedControl *)sender {
-    self.hra.pocetKarietNaZhodu = sender.selectedSegmentIndex + 2;
-}
 
 - (IBAction)novaHra:(UIButton *)sender {
     self.skorePopisok.text = @"Skore: 0";
@@ -36,7 +32,6 @@
         tlacitko.alpha = 1.0;
         tlacitko.selected = NO;
     }
-    self.pocetHladanychZhod.enabled = YES;
     _hra = nil;
     [self obnovUI];
 }
@@ -55,10 +50,21 @@
         tlacitko.selected = karta.otocenaCelnouStranou;
         //tlacitko.enabled = !karta.hratelna;
         tlacitko.alpha = (karta.nehratelna ? 0.3 : 1.0);
-        self.poslednyTahPopisok.text = self.hra.vysledokPoslednehoOtocenia;
+        self.poslednyTahPopisok.text = [self popisokPrePoslednyTah:[self.hra.poslednyTah lastObject]];
     }
-    if(self.pocetOtoceni)
-        self.pocetHladanychZhod.enabled = NO;
+}
+
+- (NSString *)popisokPrePoslednyTah:(PoslednyTah *)tah {
+    if (!tah) {
+        return @"";
+    }
+    NSMutableString *popisok = [[NSMutableString alloc] init];
+    [popisok appendFormat:@"%@ :",tah.stav];
+    for (Karta *karta in tah.karty){
+        [popisok appendFormat:@"%@ :",karta.obsah];
+    }
+    [popisok appendFormat:@"za %d body",tah.body];
+    return [NSString stringWithString:popisok];
 }
 
 - (void)setTlacitkaKariet:(NSArray *)tlacitkaKariet {
