@@ -52,7 +52,7 @@
         tlacitko.selected = karta.otocenaCelnouStranou;
         //tlacitko.enabled = !karta.hratelna;
         tlacitko.alpha = (karta.nehratelna ? 0.3 : 1.0);
-        self.poslednyTahPopisok.text = [self.hra.poslednyTah lastObject];
+        self.poslednyTahPopisok.text = [self popisokPrePoslednyTah:[self.hra.poslednyTah lastObject]];
     }
 }
 //TODO attributed string
